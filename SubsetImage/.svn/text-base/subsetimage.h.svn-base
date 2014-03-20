@@ -1,0 +1,38 @@
+#ifndef SUBSETIMAGE_H
+#define SUBSETIMAGE_H
+
+#include <QWidget>
+#include <QPoint>
+#include <QGraphicsRectItem>
+#include <gdal.h>
+#include <gdal_priv.h>
+#include "showimagebase2.h"
+
+namespace Ui {
+  class SubsetImage;
+}
+
+class SubsetImage: public ShowImageBase2
+{
+  Q_OBJECT
+
+  public:
+  //explicit SubsetImage(QWidget *parent = 0);
+  SubsetImage(QWidget *parent,GDALDataset*);
+  ~SubsetImage();
+
+private:
+  Ui::SubsetImage *ui;
+  QPoint nMouseClick,nMouseMoveStart,nMouseMoveEnd;
+  bool nIfMouseClick;
+  QGraphicsRectItem *nRectItem;
+
+public:
+  void mousePressEvent(QMouseEvent *event);
+  void mouseMoveEvent(QMouseEvent *event);
+  void mouseReleaseEvent(QMouseEvent *event);
+signals:
+  void ReportPosition(QPoint,QPoint);//第一个点为子图像的在原图像上的起始点。第二个点存储了其终止点。
+};
+
+#endif
